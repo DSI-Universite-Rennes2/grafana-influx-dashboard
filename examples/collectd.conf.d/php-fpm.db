@@ -1,0 +1,4 @@
+# types.db
+phpfpm_queues        value:GAUGE:0:65535
+phpfpm_processes     value:GAUGE:0:65535
+phpfpm_requests      value:DERIVE:0:U

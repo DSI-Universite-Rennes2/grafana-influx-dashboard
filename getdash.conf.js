@@ -78,7 +78,8 @@ var getDashConf = function getDashConf () {
     'zookeeper',
     'mesos',
     'apache',
-    'kafka'
+    'kafka',
+    'php'
   ];
   plugins.groups.database = [
     'elasticsearch',
@@ -3855,6 +3856,81 @@ var getDashConf = function getDashConf () {
     }
   };
 
+  // collectd php-fpm plugin configuration
+  plugins.curl_json = new Plugin({ 'alias': 'php-fpm' });
+  plugins.curl_json.config.merge = [ 'instance' ];
+
+  plugins.curl_json.queues = {
+    'graph': {
+      'size': {
+         'color': '#1E90FF',
+         'type': 'phpfpm_queues'
+      },
+      'current': {
+        'color': '#508642',
+        'type': 'phpfpm_queues'
+      },
+      'cumulate': {
+        'color': '#E24D42',
+        'type': 'phpfpm_queues'
+      }
+    },
+    'panel': {
+      'title': 'PHP-FPM Queues',
+      'y_formats': [ 'short' ],
+      'tooltip': { 'value_type': 'individual' }
+    }
+  };
+
+  plugins.curl_json.processes = {
+    'graph': {
+      'total': {
+        'color': '#1E90FF',
+        'type': 'phpfpm_processes'
+      },
+      'current_active': {
+        'color': '#508642',
+        'type': 'phpfpm_processes'
+      },
+      'idle': {
+        'color': '#EAB839',
+        'type': 'phpfpm_processes'
+      },
+      'max_active': {
+        'color': '#E24D42',
+        'type': 'phpfpm_processes'
+      },
+      'limit_reached': {
+        'color': '#890F02',
+        'type': 'phpfpm_processes'
+      }
+    },
+    'panel': {
+      'title': 'PHP-FPM Processes',
+      'y_formats': [ 'short' ],
+      'tooltip': { 'value_type': 'individual' }
+    }
+  };
+
+  plugins.curl_json.requests = {
+   'graph': {
+     'normal': {
+       'apply': 'derivative',
+       'color': '#1E90FF',
+       'type': 'phpfpm_requests'
+     },
+     'slow': {
+       'apply': 'derivative',
+       'color': '#890F02',
+       'type': 'phpfpm_requests'
+     }
+    },
+    'panel': {
+      'title': 'PHP-FPM Requests',
+      'y_formats': [ 'short' ],
+      'tooltip': { 'value_type': 'individual' }
+    }
+  };
 
   return {
     'plugins': plugins
